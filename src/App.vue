@@ -1,60 +1,50 @@
 <template>
-  <div id="app">
-    <img src="./assets/logo.png">
-    <h1>{{ msg }}</h1>
-    <h2>Essential Links</h2>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank">Forum</a></li>
-      <li><a href="https://gitter.im/vuejs/vue" target="_blank">Gitter Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank">Twitter</a></li>
-    </ul>
-    <h2>Ecosystem</h2>
-    <ul>
-      <li><a href="http://router.vuejs.org/" target="_blank">vue-router</a></li>
-      <li><a href="http://vuex.vuejs.org/" target="_blank">vuex</a></li>
-      <li><a href="http://vue-loader.vuejs.org/" target="_blank">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank">awesome-vue</a></li>
-    </ul>
+  <div id="apps">
+  <h1>{{title}}</h1>
+    <a :href="random" target="_blank" rel="noopener"><input type="button" value="Random"></a>
+  <form  @submit.prevent="findArticles">
+    <input type="search" name="search" id="search" v-model="search">
+    <input type="submit" value="Search" >
+  </form>
+  <ul>
+    <li v-for="article in articles" :key="article.title">
+      <div>
+      <p><a :href="url + article.title" target="_blank" rel="noopener">  {{article.title}}</a></p>
+      <p>{{article.extract}}</p>
+    </div>
+   </li>
+  </ul>
   </div>
+   
 </template>
 
 <script>
 export default {
-  name: 'app',
-  data () {
+  name: "app",
+  data() {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      title: "wikipedia viewer",
+      search: "",
+      articles: [],
+      url: "http://en.wikipedia.org/wiki/",
+      random: "https://en.wikipedia.org/wiki/Special:Random"
+    };
+  },
+  methods: {
+    findArticles() {
+      const endpoint = `https://en.wikipedia.org/w/api.php?format=json&action=query&title=<query>&generator=search&limit=10&prop=pageimages|extracts&pilimit=max&exintro&explaintext&exsentences=1&origin=*&exlimit=max&gsrsearch=${this
+        .search}`;
+      fetch(endpoint)
+        .then(data => data.json())
+        .then(data => {
+          this.articles = data.query.pages;
+          console.log(this.articles);
+        });
     }
   }
-}
+};
 </script>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
 
-h1, h2 {
-  font-weight: normal;
-}
-
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-
-a {
-  color: #42b983;
-}
 </style>
