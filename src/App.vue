@@ -11,7 +11,7 @@
   <ul class="article_list">
     <li v-for="article in articles" :key="article.title">
       <div class="article">
-      <h2> {{article.title}}</h2>
+      <h2> <a :href="url + article.title" target="_blank" rel="noopener"> {{article.title}}</a></h2>
       <p>{{article.extract}}</p>
      
 
@@ -105,6 +105,9 @@ h1 {
 }
 h2 {
   text-transform: uppercase;
+  a {
+    color: $color-primary-3;
+  }
 }
 
 #search_form {
