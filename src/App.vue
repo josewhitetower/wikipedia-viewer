@@ -8,7 +8,7 @@
    <a :href="random" target="_blank" rel="noopener" id="random" class="button">Random Article</a>
   </form>
 
-  <ul class="article_list">
+    <transition-group name="fade" tag="ul" class="article_list" >
     <li v-for="article in articles" :key="article.title">
       <div class="article">
       <h2> <a :href="url + article.title" target="_blank" rel="noopener"> {{article.title}}</a></h2>
@@ -19,7 +19,8 @@
     
     </div>
    </li>
-  </ul>
+    </transition-group>
+
 
   </div>
    
@@ -58,6 +59,15 @@ $color-primary-1: #fff7f7;
 $color-primary-2: #fae2e2;
 $color-primary-3: #b28181;
 $color-primary-4: #935a5a;
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
 
 #app {
   max-width: 768px;
