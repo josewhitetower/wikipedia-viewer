@@ -22,6 +22,7 @@
     </transition-group>
 
 
+  <footer> Made with <span style="color:red;">♥</span> and Vue.js by <a href="https://jose-torreblanca.com" target="_blank" rel="noopener" > @josewhitetower</a></footer>
   </div>
    
 </template>
@@ -59,6 +60,15 @@ $color-primary-1: #fff7f7;
 $color-primary-2: #fae2e2;
 $color-primary-3: #b28181;
 $color-primary-4: #935a5a;
+
+footer {
+  text-align: center;
+  padding: 10px;
+  color: $color-primary-4;
+  a {
+    text-decoration: none;
+  }
+}
 
 .fade-enter-active,
 .fade-leave-active {
