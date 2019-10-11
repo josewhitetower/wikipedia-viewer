@@ -1,30 +1,39 @@
 <template>
   <div id="app">
-  <h1>{{title}}</h1>
-  <form  @submit.prevent="findArticles" id="search_form" >
-   
-    <input type="search" name="search" id="search" v-model="search" >
-    <input type="submit" value="Search"  class="button">
-   <a :href="random" target="_blank" rel="noopener" id="random" class="button">Random Article</a>
-  </form>
+    <h1>{{title}}</h1>
+    <form @submit.prevent="findArticles" id="search_form">
+      <input type="search" name="search" id="search" v-model="search" />
+      <input type="submit" value="Search" class="button" />
+      <a :href="random" target="_blank" rel="noopener" id="random" class="button">Random Article</a>
+    </form>
 
-    <transition-group name="fade" tag="ul" class="article_list" >
-    <li v-for="article in articles" :key="article.title">
-      <div class="article">
-      <h2> <a :href="url + article.title" target="_blank" rel="noopener"> {{article.title}}</a></h2>
-      <p>{{article.extract}}</p>
-     
+    <transition-group name="fade" tag="ul" class="article_list">
+      <li v-for="article in articles" :key="article.title">
+        <div class="article">
+          <h2>
+            <a :href="url + article.title" target="_blank" rel="noopener">{{article.title}}</a>
+          </h2>
+          <p>{{article.extract}}</p>
 
-      <a :href="url + article.title" target="_blank" rel="noopener" class="button"> Read More </a>
-    
-    </div>
-   </li>
+          <a :href="url + article.title" target="_blank" rel="noopener" class="button">Read More</a>
+        </div>
+      </li>
     </transition-group>
 
-
-  <footer> Made with <span style="color:red;">♥</span> and Vue.js by <a href="https://jose-torreblanca.com" target="_blank" rel="noopener" > @josewhitetower</a></footer>
+    <footer>
+      Made with
+      <span style="color:red;">♥</span> and Vue.js by
+      <a
+        href="https://jose-torreblanca.com"
+        target="_blank"
+        rel="noopener"
+      >@josewhitetower</a>
+      <p>
+        Source code:
+        <a href="https://github.com/josewhitetower/wikipedia-viewer">Github</a>
+      </p>
+    </footer>
   </div>
-   
 </template>
 
 <script>
@@ -41,13 +50,11 @@ export default {
   },
   methods: {
     findArticles() {
-      const endpoint = `https://en.wikipedia.org/w/api.php?format=json&action=query&title=<query>&generator=search&limit=10&prop=pageimages|extracts&pilimit=max&exintro&explaintext&exsentences=1&origin=*&exlimit=max&gsrsearch=${this
-        .search}`;
+      const endpoint = `https://en.wikipedia.org/w/api.php?format=json&action=query&title=<query>&generator=search&limit=10&prop=pageimages|extracts&pilimit=max&exintro&explaintext&exsentences=1&origin=*&exlimit=max&gsrsearch=${this.search}`;
       fetch(endpoint)
         .then(data => data.json())
         .then(data => {
           this.articles = data.query.pages;
-          console.log(this.articles);
         });
     }
   }
